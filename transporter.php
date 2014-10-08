@@ -1000,9 +1000,9 @@ class McNinja_Post_Transporter {
 			do_action( 'infinite_transporter_empty' );
 			$results['type'] = 'empty';
 		}
-		error_log(print_r( $query_args['p'], true));
+		
 		$results['postID'] = $query_args['p'];
-		$results['postTitle'] = 'hold';//strip_tags( self::wp_query()->posts[0]->post_title );
+		$results['postTitle'] = strip_tags( self::wp_query()->queried_object->post_title );
 		$results['postUrl'] = get_permalink( $query_args['p'] );
 
 		echo json_encode( apply_filters( 'infinite_transporter_results', $results, $query_args, self::wp_query() ) );
@@ -1182,7 +1182,7 @@ function mcninja_post_transporter_theme_support() {
 		$child_theme = wp_get_theme();
 		$theme_name = $child_theme->get('Template');
 	} else {		
-		$theme_name = get_template_directory();
+		$theme_name = get_stylesheet();
 	}
 	$customization_file = apply_filters( 'infinite_transporter_customization_file', dirname( __FILE__ ) . "/themes/{$theme_name}.php", $theme_name );
 
