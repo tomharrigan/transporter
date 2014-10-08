@@ -1178,8 +1178,12 @@ add_action( 'init', 'mcninja_post_transporter_init', 20 );
  * If so, include the files which add theme support.
  */
 function mcninja_post_transporter_theme_support() {
-	$theme_name = get_stylesheet();
-
+	if( is_child_theme() ) {
+		$child_theme = wp_get_theme();
+		$theme_name = $child_theme->get('Template');
+	} else {		
+		$theme_name = get_template_directory();
+	}
 	$customization_file = apply_filters( 'infinite_transporter_customization_file', dirname( __FILE__ ) . "/themes/{$theme_name}.php", $theme_name );
 
 	if ( is_readable( $customization_file ) )
