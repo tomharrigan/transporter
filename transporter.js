@@ -41,16 +41,15 @@ Scroller = function( settings ) {
 	this.curPage          = 0;
 	this.the_titles       = [];
 	this.the_urls         = [];
-	this.debug            = true;
+	this.debug            = false;
 
 	// Footer settings
 	this.footer           = $( '#infinite-footer' );
 	this.footer.wrap      = settings.footer;
 
 
-						this.the_post_url = [];
-					
-						this.the_post_title = [];
+	this.the_post_url = [];
+	this.the_post_title = [];
 					
 
 	// Core's native MediaElement.js implementation needs special handling
