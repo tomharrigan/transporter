@@ -141,7 +141,7 @@ Scroller.prototype.query = function() {
 		page           : this.page,
 		currentday     : this.currentday,
 		order          : this.order,
-		postID         : this.postID,
+		postID         : window.infiniteScroll.settings.postID,
 		postTitle      : this.postTitle,
 		postUrl        : this.postUrl,
 		scripts        : window.infiniteScroll.settings.scripts,

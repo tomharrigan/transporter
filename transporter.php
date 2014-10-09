@@ -1001,9 +1001,11 @@ class McNinja_Post_Transporter {
 			$results['type'] = 'empty';
 		}
 		
-		$results['postID'] = $query_args['p'];
-		$results['postTitle'] = strip_tags( self::wp_query()->queried_object->post_title );
-		$results['postUrl'] = get_permalink( $query_args['p'] );
+		if( isset(self::wp_query()->queried_object->post_title) ) {
+			$results['postID'] = $query_args['p'];
+			$results['postTitle'] = strip_tags( self::wp_query()->queried_object->post_title );
+			$results['postUrl'] = get_permalink( $query_args['p'] );
+		}
 
 		echo json_encode( apply_filters( 'infinite_transporter_results', $results, $query_args, self::wp_query() ) );
 		die;
