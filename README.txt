@@ -1,5 +1,5 @@
 === Transporter ===
-Contributors: TomHarrigan, Automattic
+Contributors: TomHarrigan
 Tags: AJAX, endless, pagination, reading, scroll, scrolling
 Requires at least: 3.1
 Tested up to: 4.0.0
