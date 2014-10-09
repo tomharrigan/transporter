@@ -56,6 +56,6 @@ if ( function_exists( 'jetpack_is_mobile' ) ) {
  * Enqueue CSS stylesheet with theme styles for Infinite Scroll.
  */
 function twentyfourteen_infinite_transporter_enqueue_styles() {
-	wp_enqueue_style( 'infinity-twentyfourteen', plugins_url( 'twentyfourteen.css', __FILE__ ), array( 'the-neverending-homepage' ), '20131118' );
+	wp_enqueue_style( 'infinity-twentyfourteen', plugins_url( 'twentyfourteen.css', __FILE__ ), array( 'mcninja-post-transporter' ), '20131118' );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfourteen_infinite_transporter_enqueue_styles', 25 );
