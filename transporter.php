@@ -331,10 +331,10 @@ class McNinja_Post_Transporter {
 		add_filter( 'body_class', array( $this, 'body_class' ) );
 
 		// Add our scripts.
-		wp_enqueue_script( 'the-neverending-homepage', plugins_url( 'transporter.js', __FILE__ ), array( 'jquery' ), 20140523, true );
+		wp_enqueue_script( 'mcninja-post-transporter', plugins_url( 'transporter.js', __FILE__ ), array( 'jquery' ), 20140523, true );
 
 		// Add our default styles.
-		wp_enqueue_style( 'the-neverending-homepage', plugins_url( 'transporter.css', __FILE__ ), array(), '20140422' );
+		wp_enqueue_style( 'mcninja-post-transporter', plugins_url( 'transporter.css', __FILE__ ), array(), '20140422' );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_spinner_scripts' ) );
 
@@ -1133,7 +1133,24 @@ class McNinja_Post_Transporter {
 	 * @return string
 	 */
 	private function default_footer() {
-		
+		$credits = '<a href="http://wordpress.org/" rel="generator">Proudly powered by WordPress</a> ';
+		$credits .= sprintf( __( 'Theme: %1$s.', 'jetpack' ), function_exists( 'wp_get_theme' ) ? wp_get_theme()->Name : get_current_theme() );
+		$credits = apply_filters( 'infinite_scroll_credit', $credits );
+
+		?>
+		<div id="infinite-footer">
+			<div class="container">
+				<div class="blog-info">
+					<a id="infinity-blog-title" href="<?php echo home_url( '/' ); ?>" rel="home">
+						<?php bloginfo( 'name' ); ?>
+					</a>
+				</div>
+				<div class="blog-credits">
+					<?php echo $credits; ?>
+				</div>
+			</div>
+		</div><!-- #infinite-footer -->
+		<?php
 	}
 
 	/**
