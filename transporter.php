@@ -911,19 +911,8 @@ class McNinja_Post_Transporter {
 			$query_args =  array(
 				'posts_per_page' => 1,
 				'offset' => $_REQUEST['page'] -1,
-				'fields' => 'ids',
-				'post__not_in' => array( $_REQUEST['postID'] )
-			);
-
-			$p = get_posts( $query_args );
-
-			if( empty( $p ) || is_wp_error( $p ) ) {
-				die();
-			}
-
-			$query_args =  array(
-				'p' => $p[0],
-				'post_type' => array( 'post' ),
+				'post__not_in' => array( $_REQUEST['postID'] ),
+				'ignore_sticky_posts' => true
 			);
 
 		}
@@ -931,7 +920,13 @@ class McNinja_Post_Transporter {
 		// Add query filter that checks for posts below the date
 		add_filter( 'posts_where', array( $this, 'query_time_filter' ), 10, 2 );
 
-		$GLOBALS['wp_the_query'] = $GLOBALS['wp_query'] = new WP_Query( $query_args );
+		$transporter_query = new WP_Query( $query_args );
+		
+		if( isset( $_REQUEST['postID'] ) && $_REQUEST['postID'] != 0 ) {
+			$transporter_query->is_single = true;
+		}
+
+		$GLOBALS['wp_the_query'] = $GLOBALS['wp_query'] = $transporter_query;
 
 		remove_filter( 'posts_where', array( $this, 'query_time_filter' ), 10, 2 );
 
@@ -1000,11 +995,11 @@ class McNinja_Post_Transporter {
 			do_action( 'infinite_transporter_empty' );
 			$results['type'] = 'empty';
 		}
-		
-		if( isset(self::wp_query()->queried_object->post_title) ) {
-			$results['postID'] = $query_args['p'];
-			$results['postTitle'] = strip_tags( self::wp_query()->queried_object->post_title );
-			$results['postUrl'] = get_permalink( $query_args['p'] );
+		//error_log(print_r(self::wp_query(), true));
+		if( isset( self::wp_query()->posts[0]->post_title ) ) {
+			$results['postID'] = self::wp_query()->posts[0]->ID;
+			$results['postTitle'] = strip_tags( self::wp_query()->posts[0]->post_title );
+			$results['postUrl'] = get_permalink( self::wp_query()->posts[0]->ID );
 		}
 
 		echo json_encode( apply_filters( 'infinite_transporter_results', $results, $query_args, self::wp_query() ) );
