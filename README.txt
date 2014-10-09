@@ -1,5 +1,5 @@
 === Transporter ===
-Contributors: TomHarrigan
+Contributors: TomHarrigan, Automattic
 Tags: AJAX, endless, pagination, reading, scroll, scrolling
 Requires at least: 3.1
 Tested up to: 4.0.0
@@ -11,7 +11,7 @@ Infinite scroll extended to single post pages
 
 == Description ==
 
-Infinite scroll extended to single post pages
+In addition to normal infinite scroll behavior, this plugin adds infinite scroll to the single post page. When reading a single post, once the reader reaches the bottom of the page, the next post loads in. This is similar to functionality on big news sites such as Time.com, LA Times, Quartz, Vogue.com
 
 == Installation ==
 
@@ -29,6 +29,7 @@ Infinite scroll extended to single post pages
 1. Activate the plugin on the WordPress Plugins dashboard
 
 == Frequently Asked Questions ==
+=Ask a question=
 
 == Screenshots ==
 
