@@ -1090,6 +1090,10 @@ class McNinja_Post_Transporter {
 			the_post();
 
 			get_template_part( 'content', get_post_format() );
+			
+			if( is_single() ) {
+				comments_template();
+			}
 		}
 	}
 
