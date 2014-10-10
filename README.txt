@@ -13,6 +13,8 @@ Infinite scroll extended to single post pages
 
 In addition to normal infinite scroll behavior, this plugin adds infinite scroll to the single post page. When reading a single post, once the reader reaches the bottom of the page, the next post loads in. This is similar to functionality on big news sites such as Time.com, LA Times, Quartz, Vogue.com
 
+Relies on add_theme_support, expects specific styling from each theme; including fixed footer.
+
 == Installation ==
 
 = Using The WordPress Dashboard =
@@ -27,6 +29,10 @@ In addition to normal infinite scroll behavior, this plugin adds infinite scroll
 1. Extract `transporter.zip` to your computer
 1. Upload the `transporter` directory to your `wp-content/plugins` directory
 1. Activate the plugin on the WordPress Plugins dashboard
+
+Add the following to your themes functions.php file: `add_theme_support( 'infinite-transporter');`
+
+The default WordPress TwentySomething themes are already compatable with this plugin and ready to go! 
 
 == Frequently Asked Questions ==
 =Ask a question=
