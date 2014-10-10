@@ -906,7 +906,11 @@ class McNinja_Post_Transporter {
 
 		$query_args = apply_filters( 'infinite_transporter_query_args', $query_args );
 
+		$single_query = false;
+
 		if( isset( $_REQUEST['postID'] ) && $_REQUEST['postID'] != 0  ) {
+
+			$single_query = true;
 
 			$query_args =  array(
 				'posts_per_page' => 1,
@@ -921,8 +925,8 @@ class McNinja_Post_Transporter {
 		add_filter( 'posts_where', array( $this, 'query_time_filter' ), 10, 2 );
 
 		$transporter_query = new WP_Query( $query_args );
-		
-		if( isset( $_REQUEST['postID'] ) && $_REQUEST['postID'] != 0 ) {
+
+		if( $single_query ) {
 			$transporter_query->is_single = true;
 		}
 
@@ -996,7 +1000,7 @@ class McNinja_Post_Transporter {
 			$results['type'] = 'empty';
 		}
 		//error_log(print_r(self::wp_query(), true));
-		if( isset( self::wp_query()->posts[0]->post_title ) ) {
+		if( $single_query ) {
 			$results['postID'] = self::wp_query()->posts[0]->ID;
 			$results['postTitle'] = strip_tags( self::wp_query()->posts[0]->post_title );
 			$results['postUrl'] = get_permalink( self::wp_query()->posts[0]->ID );
