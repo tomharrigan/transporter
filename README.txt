@@ -1,5 +1,5 @@
-=== Transporter ===
-Contributors: TomHarrigan
+=== Infinite Post Transporter ===
+Contributors: TomHarrigan, jmarx75
 Tags: AJAX, endless, pagination, reading, scroll, scrolling
 Requires at least: 3.1
 Tested up to: 4.0.0
@@ -20,17 +20,19 @@ Relies on add_theme_support, expects specific styling from each theme; including
 = Using The WordPress Dashboard =
 
 1. Navigate to the 'Add New' Plugin Dashboard
-1. Select `transporter.zip` from your computer
+1. Select `infinite-transporter.zip` from your computer
 1. Upload
 1. Activate the plugin on the WordPress Plugin Dashboard
 
 = Using FTP =
 
-1. Extract `transporter.zip` to your computer
-1. Upload the `transporter` directory to your `wp-content/plugins` directory
+1. Extract `infinite-transporter.zip` to your computer
+1. Upload the `infinite-transporter` directory to your `wp-content/plugins` directory
 1. Activate the plugin on the WordPress Plugins dashboard
 
 Add the following to your themes functions.php file: `add_theme_support( 'infinite-transporter');`
+
+The available options are the same as those in Jetpack Infinite Scroll. To configure further, see the following: http://jetpack.me/support/infinite-scroll/
 
 The default WordPress TwentySomething themes are already compatable with this plugin and ready to go! 
 
