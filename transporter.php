@@ -67,6 +67,7 @@ class McNinja_Post_Transporter {
 				'wrapper'         => true, // true | false | html class
 				'render'          => false, // optional function, otherwise the `content` template part will be used
 				'footer'          => true, // boolean to enable or disable the infinite footer | string to provide an html id to derive footer width from
+				'google_analytics'          => false, 
 				'footer_callback' => false, // function to be called to render the IS footer, in place of the default
 				'posts_per_page'  => false, // int | false to set based on IS type
 				'click_handle'    => true, // boolean to enable or disable rendering the click handler div. If type is click and this is false, page must include its own trigger with the HTML ID `infinite-handle`.
@@ -105,6 +106,13 @@ class McNinja_Post_Transporter {
 
 									if ( ! empty( $value ) )
 										$settings[ $key ] = $value;
+								}
+
+								break;
+
+							case 'google_analytics' :
+								if ( is_bool( $value ) ) {
+									$settings[ $key ] = $value;
 								}
 
 								break;
@@ -574,7 +582,7 @@ class McNinja_Post_Transporter {
 			'order'            => 'DESC',
 			'scripts'          => array(),
 			'styles'           => array(),
-			'google_analytics' => false,
+			'google_analytics' => esc_js( self::get_settings()->google_analytics ),
 			'offset'           => self::wp_query()->get( 'paged' ),
 			'history'          => array(
 				'host'                 => preg_replace( '#^http(s)?://#i', '', untrailingslashit( get_option( 'home' ) ) ),
@@ -639,6 +647,8 @@ class McNinja_Post_Transporter {
 				$path = preg_replace( '#' . $wp_rewrite->pagination_base . '/\d+$#i', $wp_rewrite->pagination_base . '/%d', $wp->request );
 			else
 				$path = $wp->request . '/' . $wp_rewrite->pagination_base . '/%d';
+
+
 
 			// Slashes everywhere we need them
 			if ( 0 !== strpos( $path, '/' ) )
@@ -919,6 +929,9 @@ class McNinja_Post_Transporter {
 				'ignore_sticky_posts' => true
 			);
 
+			$query_args = apply_filters( 'single_infinite_transporter_query_args', $query_args );
+
+
 		}
 
 		// Add query filter that checks for posts below the date
@@ -928,6 +941,7 @@ class McNinja_Post_Transporter {
 
 		if( $single_query ) {
 			$transporter_query->is_single = true;
+			$transporter_query->is_singular = true;
 		}
 
 		$GLOBALS['wp_the_query'] = $GLOBALS['wp_query'] = $transporter_query;
@@ -999,11 +1013,12 @@ class McNinja_Post_Transporter {
 			do_action( 'infinite_transporter_empty' );
 			$results['type'] = 'empty';
 		}
-		//error_log(print_r(self::wp_query(), true));
+
 		if( $single_query ) {
 			$results['postID'] = self::wp_query()->posts[0]->ID;
 			$results['postTitle'] = strip_tags( self::wp_query()->posts[0]->post_title );
 			$results['postUrl'] = get_permalink( self::wp_query()->posts[0]->ID );
+			$results['postPath'] = parse_url( $results['postUrl'], PHP_URL_PATH );
 		}
 
 		echo json_encode( apply_filters( 'infinite_transporter_results', $results, $query_args, self::wp_query() ) );
