@@ -347,6 +347,7 @@ Scroller.prototype.refresh = function() {
 				// Update currentday to the latest value returned from the server
 				if (response.currentday)
 					self.currentday = response.currentday;
+
 				if (response.postID) {
 					self.postID = response.postID;
 					self.postTitle = response.postTitle;
@@ -355,7 +356,22 @@ Scroller.prototype.refresh = function() {
 					self.the_post_url.push( response.postUrl );
 					self.the_post_title.push( response.postTitle );
 
-					
+				}
+
+				// Fire Google Analytics pageview
+				if ( self.google_analytics ) {
+					if( typeof self.postID == 'undefined' ) {
+						var ga_url = self.history.path.replace( /%d/, self.page );
+					} else {
+						var ga_url = response.postPath;
+					}
+
+					if ( 'object' === typeof _gaq ) {
+						_gaq.push( [ '_trackPageview', ga_url ] );
+					}
+					if ( 'function' === typeof ga ) {
+						ga( 'send', 'pageview', ga_url );
+					}
 				}
 			}
 		});
@@ -503,8 +519,8 @@ Scroller.prototype.determineURL = function () {
 		setBottom = setTop + setHeight;
 
 		// Set a value for the post URL, don't leave undefined.
-		var tmp_post_url   = typeof the_post_url === 'undefined' || typeof  the_post_url[0] === 'undefined' ? '' : the_post_url[0];
-		var tmp_post_title = typeof the_post_title === 'undefined' || typeof the_post_url[0] === 'undefined' ? '' : the_post_title[0];
+		var tmp_post_url   = typeof self.the_post_url === 'undefined' || typeof  self.the_post_url[0] === 'undefined' ? '' : self.the_post_url[0];
+		var tmp_post_title = typeof self.the_post_title === 'undefined' || typeof self.the_post_url[0] === 'undefined' ? '' : self.the_post_title[0];
 
 		self.debugInfinity( 'the_post_url: ' + tmp_post_url);
 		self.debugInfinity( 'the_post_title: ' + tmp_post_title);
@@ -566,8 +582,7 @@ Scroller.prototype.determineURL = function () {
 
 		self.debugInfinity('current page: ' + self.curPage);
 
-		if( self.the_post_title.length === 0  ) {
-
+		if( typeof self.postID == 'undefined' ) {
 			if ( pageNum != -1 )
 				pageNum++;
 			self.updateURL( pageNum );
