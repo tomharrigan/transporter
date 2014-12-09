@@ -210,7 +210,7 @@ Scroller.prototype.refresh = function() {
 	// Create a loader element to show it's working.
 	if ( this.click_handle ) {
 		if( ! $( '.infinite-loader' ).length ){
-			$( '.site-container' ).append( '<span class="infinite-loader"><img src="/wp-content/themes/vogue/images/ajax-loader.gif"></span>' );
+			$( '.site-container' ).append( '<span class="infinite-loader"></span>' );
 		}
 		
 		loader = $( '.infinite-loader' );
