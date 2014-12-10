@@ -197,8 +197,6 @@ Scroller.prototype.refresh = function() {
 	var	self   = this,
 		query, jqxhr, load, loader, color;
 
-			
-
 	// If we're disabled, ready, or don't pass the check, bail.
 	if ( this.disabled || ! this.ready || ! this.check() )
 		return;
