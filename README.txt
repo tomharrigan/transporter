@@ -1,9 +1,9 @@
 === Infinite Post Transporter ===
-Contributors: TomHarrigan, jmarx75
-Tags: AJAX, endless, pagination, reading, scroll, scrolling
+Contributors: TomHarrigan, codeandtheory, jmarx75
+Tags: AJAX, endless, pagination, reading, scroll, scrolling, genesis, canvas
 Requires at least: 3.1
-Tested up to: 4.0.0
-Stable tag: 1.0
+Tested up to: 4.0.1
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,15 @@ The default WordPress TwentySomething themes are already compatable with this pl
 
 
 == Changelog ==
+
+= 1.1 =
+* Add Google Analytics integration support
+* Add support for Genesis themes
+* Add support for Canvas themes
+* Add support for Twenty Fifteen theme
+* Add 'single_infinite_transporter_query_args' filter
+* Fix bug with second post not updating URL
+* Fix bug with page parameter being appending in single post page
 
 = 1.0 =
 * Initial release
