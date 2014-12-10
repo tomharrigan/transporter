@@ -37,3 +37,11 @@ function canvas_infinite_transporter_render() {
     }
         
 }
+
+/**
+ * Enqueue CSS stylesheet with theme styles for Infinite Transporter.
+ */
+function canvas_infinite_transporter_enqueue_styles() {
+    wp_enqueue_style( 'infinity-canvas', plugins_url( 'canvas.css', __FILE__ ), array( 'mcninja-post-transporter' ), '20141210' );
+}
+add_action( 'wp_enqueue_scripts', 'canvas_infinite_transporter_enqueue_styles', 25 );
