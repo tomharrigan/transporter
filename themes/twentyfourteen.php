@@ -1,12 +1,12 @@
 <?php
 /**
- * Infinite Scroll Theme Assets
+ * Infinite Transporter Theme Assets
  *
  * Register support for Twenty Fourteen.
  */
 
 /**
- * Add theme support for infinite scroll
+ * Add theme support for infinite transporter
  */
 function twentyfourteen_infinite_transporter_init() {
 	add_theme_support( 'infinite-transporter', array(
@@ -39,7 +39,7 @@ if ( function_exists( 'jetpack_is_mobile' ) ) {
 }
 
 /**
- * Enqueue CSS stylesheet with theme styles for Infinite Scroll.
+ * Enqueue CSS stylesheet with theme styles for Infinite Transporter.
  */
 function twentyfourteen_infinite_transporter_enqueue_styles() {
 	wp_enqueue_style( 'infinity-twentyfourteen', plugins_url( 'twentyfourteen.css', __FILE__ ), array( 'mcninja-post-transporter' ), '20131118' );
