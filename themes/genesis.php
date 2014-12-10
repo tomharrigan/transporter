@@ -53,6 +53,5 @@ function genesis_infinite_transporter_render() {
         else : //* if no posts exist
             do_action( 'genesis_loop_else' );
         endif; //* end loop
-        
+
 }
-add_action( 'init', 'metro_pro_infinite_transporter_init' );
