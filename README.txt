@@ -2,7 +2,7 @@
 Contributors: TomHarrigan, codeandtheory, jmarx75
 Tags: AJAX, endless, pagination, reading, scroll, scrolling, genesis, canvas
 Requires at least: 3.1
-Tested up to: 4.0.1
+Tested up to: 4.1.0
 Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -42,11 +42,7 @@ The available options are the same as those in Jetpack Infinite Scroll. To confi
 
 The plugin assumes that your themes content container is named 'content', unless otherwise defined. If posts are loaded in a container named differently than that, for example inside of a div named 'main', then in your 'add_theme_support' declaration, include the 'container' argument with name of your themes container div like so: 
 
-```
-add_theme_support( 'infinite-transporter', array(
-	'container' => 'main',
-);
-```
+`add_theme_support( 'infinite-transporter', array( 'container' => 'main' );`
  
 
 == Frequently Asked Questions ==
