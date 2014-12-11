@@ -11,6 +11,10 @@
 	display: block;
 }
 
+.infinite-wrap {
+	margin-top: 8.3333%;
+}
+
 /* Spinner */
 .infinite-loader {
 	clear: both;
