@@ -1052,7 +1052,7 @@ class McNinja_Post_Transporter {
 		$current = new WP_Query($args);
 		while ( $current->have_posts() ) { 
 			$current->the_post(); 
-			$adjacent_post = get_adjacent_post(false, null, true, 'category');
+			$adjacent_post = get_adjacent_post();
 		}
 		wp_reset_query();
 
