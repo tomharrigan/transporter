@@ -13,7 +13,11 @@ Infinite scroll extended to single post pages
 
 In addition to normal infinite scroll behavior, this plugin adds infinite scroll to the single post page. When reading a single post, once the reader reaches the bottom of the page, the next post loads in. This is similar to functionality on big news sites such as Time.com, LA Times, Quartz, Vogue.com
 
-Relies on add_theme_support, expects specific styling from each theme; including fixed footer.
+The default WordPress TwentySomething themes, Genesis themes and Canvas themes are already compatable with this plugin and ready to go!
+
+Relies on add_theme_support. If your theme is not in the above list, add the folliwing to your themes functions.php file: `add_theme_support( 'infinite-transporter' );`
+
+See installation section for more on getting set up. 
 
 == Installation ==
 
@@ -30,11 +34,20 @@ Relies on add_theme_support, expects specific styling from each theme; including
 1. Upload the `infinite-transporter` directory to your `wp-content/plugins` directory
 1. Activate the plugin on the WordPress Plugins dashboard
 
-Add the following to your themes functions.php file: `add_theme_support( 'infinite-transporter');`
+The default WordPress TwentySomething themes, Genesis themes and Canvas themes are already compatable with this plugin and ready to go!
+
+Otherwise, add the following to your themes functions.php file: `add_theme_support( 'infinite-transporter' );`
 
 The available options are the same as those in Jetpack Infinite Scroll. To configure further, see the following: http://jetpack.me/support/infinite-scroll/
 
-The default WordPress TwentySomething themes are already compatable with this plugin and ready to go! 
+The plugin assumes that your themes content container is named 'content', unless otherwise defined. If posts are loaded in a container named differently than that, for example inside of a div named 'main', then in your 'add_theme_support' declaration, include the 'container' argument with name of your themes container div like so: 
+
+```
+add_theme_support( 'infinite-transporter', array(
+	'container' => 'main',
+);
+```
+ 
 
 == Frequently Asked Questions ==
 =Ask a question=
@@ -49,9 +62,10 @@ The default WordPress TwentySomething themes are already compatable with this pl
 * Add support for Genesis themes
 * Add support for Canvas themes
 * Add support for Twenty Fifteen theme
+* Add 'post_order' parameter to allow loading of posts in sequential reverse-chron order (true), or by starting from latest post after scrolling through initial post (default, false).
 * Add 'single_infinite_transporter_query_args' filter
 * Fix bug with second post not updating URL
-* Fix bug with page parameter being appending in single post page
+* Fix bug with page parameter being appended in single post page
 
 = 1.0 =
 * Initial release
