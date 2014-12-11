@@ -32,6 +32,7 @@ Scroller = function( settings ) {
 	this.handle           = '<div id="infinite-handle"><span>' + text.replace( '\\', '' ) + '</span></div>';
 	this.click_handle     = settings.click_handle;
 	this.google_analytics = settings.google_analytics;
+	this.post_order       = settings.post_order;
 	this.history          = settings.history;
 	this.origURL          = window.location.href;
 	this.postID           = settings.postID;
@@ -46,7 +47,6 @@ Scroller = function( settings ) {
 	// Footer settings
 	this.footer           = $( '#infinite-footer' );
 	this.footer.wrap      = settings.footer;
-
 
 	this.the_post_url = [];
 	this.the_post_title = [];
@@ -140,7 +140,7 @@ Scroller.prototype.query = function() {
 		page           : this.page,
 		currentday     : this.currentday,
 		order          : this.order,
-		postID         : window.infiniteScroll.settings.postID,
+		postID         : this.post_order ? this.postID : window.infiniteScroll.settings.postID,
 		postTitle      : this.postTitle,
 		postUrl        : this.postUrl,
 		scripts        : window.infiniteScroll.settings.scripts,

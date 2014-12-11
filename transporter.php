@@ -67,7 +67,8 @@ class McNinja_Post_Transporter {
 				'wrapper'         => true, // true | false | html class
 				'render'          => false, // optional function, otherwise the `content` template part will be used
 				'footer'          => true, // boolean to enable or disable the infinite footer | string to provide an html id to derive footer width from
-				'google_analytics'          => false, 
+				'google_analytics'=> false, // boolean if using google analytics, set to true
+				'post_order'	  => false, //
 				'footer_callback' => false, // function to be called to render the IS footer, in place of the default
 				'posts_per_page'  => false, // int | false to set based on IS type
 				'click_handle'    => true, // boolean to enable or disable rendering the click handler div. If type is click and this is false, page must include its own trigger with the HTML ID `infinite-handle`.
@@ -111,6 +112,13 @@ class McNinja_Post_Transporter {
 								break;
 
 							case 'google_analytics' :
+								if ( is_bool( $value ) ) {
+									$settings[ $key ] = $value;
+								}
+
+								break;
+
+							case 'post_order' :
 								if ( is_bool( $value ) ) {
 									$settings[ $key ] = $value;
 								}
@@ -583,6 +591,7 @@ class McNinja_Post_Transporter {
 			'scripts'          => array(),
 			'styles'           => array(),
 			'google_analytics' => esc_js( self::get_settings()->google_analytics ),
+			'post_order'     	   => esc_js( self::get_settings()->post_order ),
 			'offset'           => self::wp_query()->get( 'paged' ),
 			'history'          => array(
 				'host'                 => preg_replace( '#^http(s)?://#i', '', untrailingslashit( get_option( 'home' ) ) ),
@@ -647,8 +656,6 @@ class McNinja_Post_Transporter {
 				$path = preg_replace( '#' . $wp_rewrite->pagination_base . '/\d+$#i', $wp_rewrite->pagination_base . '/%d', $wp->request );
 			else
 				$path = $wp->request . '/' . $wp_rewrite->pagination_base . '/%d';
-
-
 
 			// Slashes everywhere we need them
 			if ( 0 !== strpos( $path, '/' ) )
@@ -922,12 +929,26 @@ class McNinja_Post_Transporter {
 
 			$single_query = true;
 
-			$query_args =  array(
-				'posts_per_page' => 1,
-				'offset' => $_REQUEST['page'] -1,
-				'post__not_in' => array( $_REQUEST['postID'] ),
-				'ignore_sticky_posts' => true
-			);
+			if( self::get_settings()->post_order ) {
+				$next_post = $this->infinite_transporter_get_adjacent_post( $_REQUEST['postID'] );
+				if( ! $next_post ) {
+					die();
+				}
+				$query_args =  array(
+					'p' => $next_post->ID,
+					'post_type' => 'post',
+					'posts_per_page' => '1',
+					
+				 );
+			} else {
+
+				$query_args =  array(
+					'posts_per_page' => 1,
+					'offset' => $_REQUEST['page'] -1,
+					'post__not_in' => array( $_REQUEST['postID'] ),
+					'ignore_sticky_posts' => true
+				);
+			}
 
 			$query_args = apply_filters( 'single_infinite_transporter_query_args', $query_args );
 
@@ -1025,6 +1046,18 @@ class McNinja_Post_Transporter {
 		die;
 	}
 
+	function infinite_transporter_get_adjacent_post( $post_id ) {
+		
+		$args = array( 'posts_per_page' => 1, 'p' => $post_id );
+		$current = new WP_Query($args);
+		while ( $current->have_posts() ) { 
+			$current->the_post(); 
+			$adjacent_post = get_adjacent_post(false, null, true, 'category');
+		}
+		wp_reset_query();
+
+		return $adjacent_post;
+	}
 	/**
 	 * Update the $allowed_vars array with the standard WP public and private
 	 * query vars, as well as taxonomy vars
