@@ -17,7 +17,7 @@ The default WordPress TwentySomething themes, Genesis themes and Canvas themes a
 
 Relies on add_theme_support. If your theme is not in the above list, add the folliwing to your themes functions.php file: `add_theme_support( 'infinite-transporter' );`
 
-See installation section for more on getting set up. 
+See installation and FAQ sections for more on getting set up. 
 
 == Installation ==
 
@@ -42,17 +42,34 @@ The available options are the same as those in Jetpack Infinite Scroll. To confi
 
 The plugin assumes that your themes content container is named 'content', unless otherwise defined. If posts are loaded in a container named differently than that, for example inside of a div named 'main', then in your 'add_theme_support' declaration, include the 'container' argument with name of your themes container div like so: 
 
-`add_theme_support( 'infinite-transporter', array( 'container' => 'main' );`
+`add_theme_support( 'infinite-transporter', array( 'container' => 'main' ) );`
  
 
 == Frequently Asked Questions ==
-=Ask a question=
+= What are all of the available settings? =
 
-== Screenshots ==
+The following is all of the available parameters that can be set along with their default values:
 
+`add_theme_support( 'infinite-transporter', array(
+	'type'            => 'scroll', // scroll | click
+	'requested_type'  => 'scroll', // store the original type for use when logic overrides it
+	'footer_widgets'  => false, // true | false | sidebar_id | array of sidebar_ids -- last two are checked with is_active_sidebar
+	'container'       => 'content', // container html id
+	'wrapper'         => true, // true | false | html class
+	'render'          => false, // optional function, otherwise the 'content' template part will be used
+	'footer'          => true, // boolean to enable or disable the infinite footer | string to provide an html id to derive footer width from
+	'google_analytics'=> false, // boolean if using google analytics, set to true
+	'post_order'	  => false, // boolean. false to display newest post after initial post. True to display next reverse chronological post after current post.
+	'footer_callback' => false, // function to be called to render the IS footer, in place of the default
+	'posts_per_page'  => false, // int | false to set based on IS type
+	'click_handle'    => true, // boolean to enable or disable rendering the click handler div. If type is click and this is false, page must include its own trigger with the HTML ID 'infinite-handle'.
+) );`
 
 == Changelog ==
 
+= 1.2 =
+* Allow support for themes that aren't well written and don't have an ID defined for the content area, but use a class name instead.
+* Add 'infinite_transporter_post_order' filter to allow for changing the post order behavior depending on user defined criteria (ex. different categories of posts, or post types, etc.)
 = 1.1 =
 * Add Google Analytics integration support
 * Add support for Genesis themes

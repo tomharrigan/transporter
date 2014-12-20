@@ -20,7 +20,7 @@ Scroller = function( settings ) {
 	this.id               = settings.id;
 	this.body             = $( document.body );
 	this.window           = $( window );
-	this.element          = $( '#' + settings.id );
+	this.element          = ( $( '#' + settings.id ).length ) ? $( '#' + settings.id ) : $( '.' + settings.id );
 	this.wrapperClass     = settings.wrapper_class;
 	this.ready            = true;
 	this.disabled         = false;
@@ -32,7 +32,6 @@ Scroller = function( settings ) {
 	this.handle           = '<div id="infinite-handle"><span>' + text.replace( '\\', '' ) + '</span></div>';
 	this.click_handle     = settings.click_handle;
 	this.google_analytics = settings.google_analytics;
-	this.post_order       = settings.post_order;
 	this.history          = settings.history;
 	this.origURL          = window.location.href;
 	this.postID           = settings.postID;
@@ -140,7 +139,8 @@ Scroller.prototype.query = function() {
 		page           : this.page,
 		currentday     : this.currentday,
 		order          : this.order,
-		postID         : this.post_order ? this.postID : window.infiniteScroll.settings.postID,
+		postID         : window.infiniteScroll.settings.postID,
+		postID_order   : this.postID,
 		postTitle      : this.postTitle,
 		postUrl        : this.postUrl,
 		scripts        : window.infiniteScroll.settings.scripts,

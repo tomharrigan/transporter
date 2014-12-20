@@ -24,7 +24,6 @@ class McNinja_Post_Transporter {
 	 */
 	function __construct() {
 		add_action( 'pre_get_posts',                  array( $this, 'posts_per_page_query' ) );
-
 		add_action( 'admin_init',                     array( $this, 'settings_api_init' ) );
 		add_action( 'template_redirect',              array( $this, 'action_template_redirect' ) );
 		add_action( 'template_redirect',              array( $this, 'ajax_response' ) );
@@ -347,7 +346,7 @@ class McNinja_Post_Transporter {
 		add_filter( 'body_class', array( $this, 'body_class' ) );
 
 		// Add our scripts.
-		wp_enqueue_script( 'mcninja-post-transporter', plugins_url( 'transporter.js', __FILE__ ), array( 'jquery' ), 20140523, true );
+		wp_enqueue_script( 'mcninja-post-transporter', plugins_url( 'transporter.js', __FILE__ ), array( 'jquery' ), 20141220, true );
 
 		// Add our default styles.
 		wp_enqueue_style( 'mcninja-post-transporter', plugins_url( 'transporter.css', __FILE__ ), array(), '20140422' );
@@ -591,7 +590,6 @@ class McNinja_Post_Transporter {
 			'scripts'          => array(),
 			'styles'           => array(),
 			'google_analytics' => esc_js( self::get_settings()->google_analytics ),
-			'post_order'     	   => esc_js( self::get_settings()->post_order ),
 			'offset'           => self::wp_query()->get( 'paged' ),
 			'history'          => array(
 				'host'                 => preg_replace( '#^http(s)?://#i', '', untrailingslashit( get_option( 'home' ) ) ),
@@ -929,8 +927,10 @@ class McNinja_Post_Transporter {
 
 			$single_query = true;
 
-			if( self::get_settings()->post_order ) {
-				$next_post = $this->infinite_transporter_get_adjacent_post( $_REQUEST['postID'] );
+			$post_order = apply_filters( 'infinite_transporter_post_order', self::get_settings()->post_order );
+
+			if( $post_order ) {
+				$next_post = $this->infinite_transporter_get_adjacent_post( $_REQUEST['postID_order'] );
 				if( ! $next_post ) {
 					die();
 				}
@@ -938,8 +938,7 @@ class McNinja_Post_Transporter {
 					'p' => $next_post->ID,
 					'post_type' => 'post',
 					'posts_per_page' => '1',
-					
-				 );
+				);
 			} else {
 
 				$query_args =  array(
