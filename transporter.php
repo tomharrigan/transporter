@@ -928,6 +928,10 @@ class McNinja_Post_Transporter {
 			$single_query = true;
 
 			$post_order = apply_filters( 'infinite_transporter_post_order', self::get_settings()->post_order );
+			// Post type of initial post
+			$post_type = get_post_type( $_REQUEST['postID'] );
+			// Allow filtering of initial post type by themes or plugins
+			$the_post_type = apply_filters( 'infinite_transporter_post_type', $post_type );
 
 			if( $post_order ) {
 				$next_post = $this->infinite_transporter_get_adjacent_post( $_REQUEST['postID_order'] );
@@ -936,13 +940,13 @@ class McNinja_Post_Transporter {
 				}
 				$query_args =  array(
 					'p' => $next_post->ID,
-					'post_type' => 'post',
+					'post_type' => $the_post_type,
 					'posts_per_page' => '1',
 				);
 			} else {
-
 				$query_args =  array(
 					'posts_per_page' => 1,
+					'post_type' => $the_post_type,
 					'offset' => $_REQUEST['page'] -1,
 					'post__not_in' => array( $_REQUEST['postID'] ),
 					'ignore_sticky_posts' => true
@@ -1047,7 +1051,10 @@ class McNinja_Post_Transporter {
 
 	function infinite_transporter_get_adjacent_post( $post_id ) {
 		
-		$args = array( 'posts_per_page' => 1, 'p' => $post_id );
+		$args = array( 
+			'posts_per_page' => 1,
+			'p' => $post_id 
+		);
 		$current = new WP_Query($args);
 		while ( $current->have_posts() ) { 
 			$current->the_post(); 
