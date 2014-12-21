@@ -3,7 +3,7 @@ Contributors: TomHarrigan, codeandtheory, jmarx75
 Tags: AJAX, endless, pagination, reading, scroll, scrolling, genesis, canvas
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,9 @@ The following is all of the available parameters that can be set along with thei
 
 == Changelog ==
 
+= 1.3 =
+* Single post queries will now use the post type of the initial post, rather than always displaying the 'Post' post type.-
+* Add filter 'infinite_transporter_post_type' to filter post type of single post queries. Allows to add additional post types to query.
 = 1.2 =
 * Allow support for themes that aren't well written and don't have an ID defined for the content area, but use a class name instead.
 * Add 'infinite_transporter_post_order' filter to allow for changing the post order behavior depending on user defined criteria (ex. different categories of posts, or post types, etc.)

@@ -4,7 +4,7 @@
 Plugin Name: Transporter
 Plugin URI: https://github.com/tomharrigan/transporter
 Description: Adds infinite scrolling support to the front-end blog post view and for the single post pages for themes, pulling the next post or set of posts automatically into view when the reader approaches the bottom of the page.
-Version: 1.2
+Version: 1.3
 Author: TomHarrigan
 Author URI: http://thomasharrigan.com
 License: GNU General Public License v2 or later
