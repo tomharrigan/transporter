@@ -23,15 +23,15 @@ class McNinja_Post_Transporter {
 	 * @return null
 	 */
 	function __construct() {
-		add_action( 'pre_get_posts',                  array( $this, 'posts_per_page_query' ) );
-		add_action( 'admin_init',                     array( $this, 'settings_api_init' ) );
-		add_action( 'template_redirect',              array( $this, 'action_template_redirect' ) );
-		add_action( 'template_redirect',              array( $this, 'ajax_response' ) );
-		add_action( 'custom_ajax_infinite_transporter',    array( $this, 'query' ) );
-		add_filter( 'infinite_transporter_query_args',     array( $this, 'inject_query_args' ) );
-		add_filter( 'infinite_transporter_allowed_vars',   array( $this, 'allowed_query_vars' ) );
-		add_action( 'the_post',                       array( $this, 'preserve_more_tag' ) );
-		add_action( 'wp_footer',                      array( $this, 'footer' ) );
+		add_action( 'pre_get_posts', array( $this, 'posts_per_page_query' ) );
+		add_action( 'admin_init', array( $this, 'settings_api_init' ) );
+		add_action( 'template_redirect', array( $this, 'action_template_redirect' ) );
+		add_action( 'template_redirect', array( $this, 'ajax_response' ) );
+		add_action( 'custom_ajax_infinite_transporter', array( $this, 'query' ) );
+		add_filter( 'infinite_transporter_query_args',  array( $this, 'inject_query_args' ) );
+		add_filter( 'infinite_transporter_allowed_vars', array( $this, 'allowed_query_vars' ) );
+		add_action( 'the_post', array( $this, 'preserve_more_tag' ) );
+		add_action( 'wp_footer', array( $this, 'footer' ) );
 
 		// Plugin compatibility
 		add_filter( 'grunion_contact_form_redirect_url', array( $this, 'filter_grunion_redirect_url' ) );
@@ -609,8 +609,7 @@ class McNinja_Post_Transporter {
 				$js_settings['order'] = $order;
 		}
 
-		if( is_single()){
-
+		if( is_single() ){
 			global $post;
 			$js_settings['postID'] = $post->ID;
 			$js_settings['postTitle'] = strip_tags( $post->post_title );
@@ -932,29 +931,30 @@ class McNinja_Post_Transporter {
 			$post_type = get_post_type( $_REQUEST['postID'] );
 			// Allow filtering of initial post type by themes or plugins
 			$the_post_type = apply_filters( 'infinite_transporter_post_type', $post_type );
+			// Only display posts from the same category as initial post
+			$in_same_cat = apply_filters( 'infinite_transporter_in_same_cat', false );
 
 			if( $post_order ) {
-				$next_post = $this->infinite_transporter_get_adjacent_post( $_REQUEST['postID_order'] );
+				$next_post = $this->infinite_transporter_get_adjacent_post( $_REQUEST['postID_order'], $in_same_cat );
 				if( ! $next_post ) {
 					die();
 				}
 				$query_args =  array(
 					'p' => $next_post->ID,
 					'post_type' => $the_post_type,
-					'posts_per_page' => '1',
+					'posts_per_page' => 1,
 				);
 			} else {
 				$query_args =  array(
 					'posts_per_page' => 1,
 					'post_type' => $the_post_type,
-					'offset' => $_REQUEST['page'] -1,
+					'offset' => $_REQUEST['page'] - 1,
 					'post__not_in' => array( $_REQUEST['postID'] ),
 					'ignore_sticky_posts' => true
 				);
 			}
 
 			$query_args = apply_filters( 'single_infinite_transporter_query_args', $query_args );
-
 
 		}
 
@@ -1049,7 +1049,7 @@ class McNinja_Post_Transporter {
 		die;
 	}
 
-	function infinite_transporter_get_adjacent_post( $post_id ) {
+	function infinite_transporter_get_adjacent_post( $post_id, $in_same_cat = false ) {
 		
 		$args = array( 
 			'posts_per_page' => 1,
@@ -1057,7 +1057,8 @@ class McNinja_Post_Transporter {
 		);
 		$current = new WP_Query($args);
 		while ( $current->have_posts() ) { 
-			$current->the_post(); 
+			$current->the_post();
+			get_adjacent_post( $in_same_cat );
 			$adjacent_post = get_adjacent_post();
 		}
 		wp_reset_query();
@@ -1256,7 +1257,7 @@ add_action( 'init', 'mcninja_post_transporter_init', 20 );
 function mcninja_post_transporter_theme_support() {
 	if( is_child_theme() ) {
 		$child_theme = wp_get_theme();
-		$theme_name = $child_theme->get('Template');
+		$theme_name = $child_theme->get( 'Template' );
 	} else {		
 		$theme_name = get_stylesheet();
 	}
