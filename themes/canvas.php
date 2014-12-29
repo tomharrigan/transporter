@@ -34,6 +34,8 @@ function canvas_infinite_transporter_render() {
         }
         
         woo_loop_after();
+    } else {
+        woo_get_template_part( 'loop' );
     }
         
 }
