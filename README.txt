@@ -71,6 +71,7 @@ The following is all of the available parameters that can be set along with thei
 * Single post queries will now use the post type of the initial post, rather than always displaying the 'Post' post type.-
 * Add filter 'infinite_transporter_post_type' to filter post type of single post queries. Allows to add additional post types to query.
 * Add filter 'infinite_transporter_in_same_cat' to only display posts from the category of the current posts
+* Modify Canvas theme render function to use themes loop.php file for non-single post pages to maintain theme options for excerpt/content settings. 
 
 = 1.2 =
 * Allow support for themes that aren't well written and don't have an ID defined for the content area, but use a class name instead.
