@@ -1058,8 +1058,7 @@ class McNinja_Post_Transporter {
 		$current = new WP_Query($args);
 		while ( $current->have_posts() ) { 
 			$current->the_post();
-			get_adjacent_post( $in_same_cat );
-			$adjacent_post = get_adjacent_post();
+			$adjacent_post = get_adjacent_post( $in_same_cat );
 		}
 		wp_reset_query();
 
