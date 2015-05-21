@@ -1045,7 +1045,7 @@ class McNinja_Post_Transporter {
 			$results['postPath'] = parse_url( $results['postUrl'], PHP_URL_PATH );
 		}
 
-		echo json_encode( apply_filters( 'infinite_transporter_results', $results, $query_args, self::wp_query() ) );
+		echo wp_json_encode( apply_filters( 'infinite_transporter_results', $results, $query_args, self::wp_query() ) );
 		die;
 	}
 
