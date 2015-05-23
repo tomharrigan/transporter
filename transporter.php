@@ -447,7 +447,7 @@ class McNinja_Post_Transporter {
 	 */
 	function query_time_filter( $where, $query ) {
 		if ( self::got_infinity() ) {
-			if( isset( $_REQUEST['postID'] ) && $_REQUEST['postID'] != 0 ) { 
+			if( isset( $_REQUEST['postID'] ) && $_REQUEST['postID'] != 0 ) {
 				return $where;
 			}
 			global $wpdb;
@@ -1050,13 +1050,13 @@ class McNinja_Post_Transporter {
 	}
 
 	function infinite_transporter_get_adjacent_post( $post_id, $in_same_cat = false ) {
-		
-		$args = array( 
+
+		$args = array(
 			'posts_per_page' => 1,
-			'p' => $post_id 
+			'p' => $post_id
 		);
 		$current = new WP_Query($args);
-		while ( $current->have_posts() ) { 
+		while ( $current->have_posts() ) {
 			$current->the_post();
 			$adjacent_post = get_adjacent_post( $in_same_cat );
 		}
@@ -1144,7 +1144,7 @@ class McNinja_Post_Transporter {
 			the_post();
 
 			get_template_part( 'content', get_post_format() );
-			
+
 			if( is_single() ) {
 				comments_template();
 			}
@@ -1257,7 +1257,7 @@ function mcninja_post_transporter_theme_support() {
 	if( is_child_theme() ) {
 		$child_theme = wp_get_theme();
 		$theme_name = $child_theme->get( 'Template' );
-	} else {		
+	} else {
 		$theme_name = get_stylesheet();
 	}
 	$customization_file = apply_filters( 'infinite_transporter_customization_file', dirname( __FILE__ ) . "/themes/{$theme_name}.php", $theme_name );
@@ -1266,6 +1266,13 @@ function mcninja_post_transporter_theme_support() {
 		require_once( $customization_file );
 }
 add_action( 'after_setup_theme', 'mcninja_post_transporter_theme_support', 5 );
+
+// Adding theme support
+add_action( 'after_setup_theme', 'theme_support' );
+function theme_support() {
+	add_theme_support( 'infinite-transporter' );
+}
+
 
 /**
  * Don't load the admin bar when doing the AJAX response.
