@@ -208,7 +208,7 @@ Scroller.prototype.refresh = function() {
 	// Create a loader element to show it's working.
 	if ( this.click_handle ) {
 		if( ! $( '.infinite-loader' ).length ){
-			$( '.site-container' ).append( '<span class="infinite-loader"></span>' );
+			self.element.append( '<span class="infinite-loader"></span>' );
 		}
 		
 		loader = $( '.infinite-loader' );
@@ -225,7 +225,7 @@ Scroller.prototype.refresh = function() {
 	// Allow refreshes to occur again if an error is triggered.
 	jqxhr.fail( function() {
 		if ( self.click_handle ) {
-			loader.hide();
+			loader.remove();
 		}
 
 		self.ready = true;
@@ -235,7 +235,7 @@ Scroller.prototype.refresh = function() {
 	jqxhr.done( function( response ) {
 			// On success, let's hide the loader circle.
 			if ( self.click_handle ) {
-				loader.hide();
+				loader.remove();
 			}
 
 			// Check for and parse our response.
